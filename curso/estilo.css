@@ -137,6 +137,17 @@ button:disabled { cursor: not-allowed; opacity: .48; }
 .api-warning { margin: 12px 0; padding: 11px 12px; border: 1px solid #d5ad5e; background: #fff6d9; color: #594616; line-height: 1.5; }
 .tutor-dialog { width: min(600px, calc(100vw - 24px)); }
 .dialog-content a { color: #0755a1; }
+.tutor-form, .tutor-question-form { display: grid; gap: 7px; margin-top: 14px; }
+.tutor-form input, .tutor-question-form textarea { width: 100%; padding: 8px; border: 1px solid #7f9db9; background: #fff; box-shadow: inset 1px 1px 2px #bdc5ca; }
+.tutor-form button, .tutor-question-form button { justify-self: start; padding: 6px 10px; border: 1px solid #8395a5; background: linear-gradient(#fff, #e1e5e8); }
+.tutor-status { color: #596675; font-size: 11px; }
+.tutor-chat { margin-top: 14px; border-top: 1px solid #c1c5c3; }
+.tutor-messages { max-height: 220px; overflow: auto; padding: 8px; border: 1px solid #c4c8c3; background: #fafaf6; }
+.tutor-messages p { margin: 6px 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.tutor-message { padding: 7px 8px; border-left: 3px solid #4b83b7; background: #edf4fa; }
+.tutor-message.student { border-color: #8c9ba8; background: #f0f1ef; }
+.tutor-message.error { border-color: #b64431; background: #fff1ec; color: #79301c; }
+.tutor-question-form textarea { min-height: 72px; resize: vertical; }
 
 .layout { display: grid; grid-template-columns: 220px minmax(360px, 1fr) minmax(305px, 370px); gap: 9px; align-items: stretch; }
 .panel { min-width: 0; background: var(--panel); border: 1px solid #f8f7f0; box-shadow: 1px 1px 0 #7d8c9b, 2px 2px 0 rgba(21, 40, 62, .48); }

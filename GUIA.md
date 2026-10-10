@@ -40,11 +40,34 @@ La primera visita abre una ventana de bienvenida/ayuda con el mapa ASCII de los
 diez niveles y la tabla de caracteres graficos tomada de `clasesbolge.md`; no
 es un solucionario. El boton Inicio / Ayuda la vuelve a mostrar.
 
-El tutor NVIDIA aun no esta conectado. Pages no puede guardar una clave API
-secreta: ni un `venv` ni GitHub Actions Secrets sirven como almacen de runtime
-para el navegador. Antes de activarlo hace falta un backend/proxy, por ejemplo
-un Cloudflare Worker con `NVIDIA_API_KEY` configurada como secreto. El rol
-socratico y los requisitos estan en `curso/ROL_TUTOR.md` y `curso/AGENTS.md`.
+El tutor NVIDIA usa un Cloudflare Worker como proxy. La web solo conserva en el
+navegador la URL publica del Worker; la clave NVIDIA se guarda como secreto del
+Worker y nunca se introduce en la web, Git o un `venv`. El tutor manda a NVIDIA
+la pregunta escrita y el contexto de la consigna activa; no manda fuente,
+respuestas esperadas ni progreso. El rol socratico y los limites estan en
+`curso/ROL_TUTOR.md` y `curso/AGENTS.md`.
+
+Para desplegarlo, instala Wrangler localmente o usa `npx`:
+
+```bash
+npx wrangler login
+npx wrangler secret put NVIDIA_API_KEY
+npx wrangler deploy
+```
+
+Escribe la clave solo en el prompt seguro de Wrangler; nunca la pegues en un
+comando, archivo, issue o chat. El Worker publica `https://<worker>.<cuenta>.workers.dev`;
+pega esa URL terminada en `/api/tutor` en Inicio / Tutor. El Worker limita las
+preguntas a 5 por minuto y solo permite el origen oficial de Pages y localhost.
+Para probar localmente:
+
+```bash
+npx wrangler dev
+```
+
+Wrangler muestra la URL local; el origen `http://localhost:8000` del curso esta
+permitido para desarrollo. Los cambios del sitio estatico siguen desplegandose
+con GitHub Pages independientemente del Worker.
 
 Desde la raiz de Calcbolge, inicia un servidor local:
 
@@ -63,6 +86,7 @@ Las pruebas del curso corren con:
 
 ```bash
 node --test tests/test_curso.mjs
+node --test tests/test_tutor.mjs
 ```
 
 ## La formula

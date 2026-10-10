@@ -74,12 +74,31 @@
       </div>
       <div class="dialog-content">
         <h2 id="tutor-title">Tutor socrático (opcional)</h2>
-        <p>Cuando se conecte el proxy, el tutor podrá explicar conceptos y darte pistas graduales sin resolverte los retos.</p>
+        <p>El tutor explica conceptos y da pistas graduales; no resuelve los retos. Conecta tu Worker de Cloudflare para activarlo.</p>
         <div class="api-warning">
-          <strong>La web estática no puede esconder una clave.</strong> No pegues tu API key aquí: este sitio aún no tiene un backend seguro. Un `venv` solo aísla paquetes en tu computadora; no protege secretos en GitHub Pages. GitHub Actions Secrets tampoco llegan al navegador y nunca deben incrustarse en los archivos publicados.
+          <strong>No pegues tu API key aquí.</strong> La clave NVIDIA debe guardarse en Cloudflare como secreto del Worker; nunca en el navegador, el repo, un `venv` o los archivos de GitHub Pages.
         </div>
-        <p>Para activarlo de forma segura hace falta un pequeño proxy del lado servidor que guarde `NVIDIA_API_KEY` como secreto (por ejemplo, en un Cloudflare Worker). La web enviaría solo tu pregunta y el reto actual a ese proxy, nunca la clave. El rol e instrucciones del tutor ya están documentados para ese backend.</p>
-        <p><a href="https://build.nvidia.com/" target="_blank" rel="noopener">NVIDIA API Catalog</a> · La conexión todavía no está activada.</p>
+        <form id="tutor-endpoint-form" class="tutor-form">
+          <label class="field-label" for="tutor-endpoint">URL pública del Worker · no es un secreto</label>
+          <input id="tutor-endpoint" type="url" autocomplete="url"
+            placeholder="https://calcbolge-nvidia-tutor.tu-subdominio.workers.dev/api/tutor"
+            aria-describedby="tutor-endpoint-status">
+          <button type="submit">Guardar URL</button>
+          <button id="disconnect-tutor" type="button">Desconectar</button>
+          <span id="tutor-endpoint-status" class="tutor-status" aria-live="polite">Sin conectar. Despliega tu Worker y pega aquí su URL.</span>
+        </form>
+        <div id="tutor-chat" class="tutor-chat">
+          <div id="tutor-messages" class="tutor-messages" role="log" aria-live="polite">
+            <p class="tutor-placeholder">Cuando conectes el Worker, escribe una pregunta sobre el reto actual.</p>
+          </div>
+          <form id="tutor-question-form" class="tutor-question-form">
+            <label class="field-label" for="tutor-question">TU PREGUNTA · se enviará a NVIDIA</label>
+            <textarea id="tutor-question" maxlength="1200" rows="3"
+              placeholder="Pide una explicación o una pista; no envíes información personal ni tu fuente."></textarea>
+            <button id="ask-tutor" type="submit" disabled>Preguntar al tutor</button>
+          </form>
+        </div>
+        <p class="help-note">Se envían el número, título, unidad, concepto y consigna del reto actual, más la pregunta que escribas. El editor, respuestas esperadas, progreso y API key no se envían. No incluyas datos personales ni código en tu pregunta. Consulta <a href="https://build.nvidia.com/" target="_blank" rel="noopener">NVIDIA API Catalog</a>.</p>
         <div class="dialog-actions">
           <button type="button" class="primary-button" data-close-dialog="tutor-dialog">Entendido</button>
         </div>
@@ -150,7 +169,7 @@
       <a href="https://malbolge.org/digital_root.html" target="_blank" rel="noopener">raíz digital</a> ·
       <a href="https://malbolge.org/adder.html" target="_blank" rel="noopener">adder</a> ·
       <a href="https://malbolge.org/quine.html" target="_blank" rel="noopener">quine de Matthias Lutter</a>.
-      Curso estático, local y sin dependencias.
+      Curso estático y sin dependencias; el tutor opcional envía el contexto mínimo del reto y tu pregunta a NVIDIA.
     </footer>
   </div>
   <script type="module" src="./app.mjs"></script>

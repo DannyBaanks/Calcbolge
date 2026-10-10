@@ -29,8 +29,18 @@ desktop aesthetic and responsive layout.
 - An AI integration must call a server-side proxy. Store `NVIDIA_API_KEY` in
   that provider's secret manager, enforce request limits, and do not log keys
   or learner prompts. The browser must never receive the provider key.
-- Do not enable a tutor UI that claims it is connected until a backend URL is
-  configured and verified.
+- The Worker URL is public configuration, not a credential. Limit accepted
+  origins to the published course and explicit local development origins.
+- Do not claim that the provider connection itself is verified until a request
+  succeeds.
+
+## Tutor deployment
+
+Deploy `worker/index.mjs` with `wrangler.jsonc`. Set `NVIDIA_API_KEY` using
+`wrangler secret put NVIDIA_API_KEY`; never use a `vars` entry for it. The
+frontend sends only the active lesson ID and the learner's typed question.
+Keep the Worker's lesson context allowlisted: do not forward answer keys,
+explanations, editor contents, or progress.
 
 ## Verification
 

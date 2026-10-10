@@ -1,5 +1,10 @@
 import { lessons } from "./lecciones.mjs";
 import {
+  askTutor,
+  normalizeTutorEndpoint,
+  TUTOR_ENDPOINT_KEY,
+} from "./tutor-client.mjs";
+import {
   checkAnswer,
   readProgress,
   verifyProgramLesson,
@@ -35,6 +40,14 @@ const elements = {
   introButton: $("#open-intro"),
   tutor: $("#tutor-dialog"),
   tutorButton: $("#open-tutor"),
+  tutorEndpointForm: $("#tutor-endpoint-form"),
+  tutorEndpoint: $("#tutor-endpoint"),
+  tutorEndpointStatus: $("#tutor-endpoint-status"),
+  disconnectTutor: $("#disconnect-tutor"),
+  tutorQuestionForm: $("#tutor-question-form"),
+  tutorQuestion: $("#tutor-question"),
+  tutorMessages: $("#tutor-messages"),
+  askTutorButton: $("#ask-tutor"),
   roadmap: $("#intro-roadmap"),
   source: $("#program-source"),
   file: $("#program-file"),
@@ -58,6 +71,8 @@ let selectedChoice = null;
 let worker = null;
 let busy = false;
 let runId = 0;
+let tutorEndpoint = "";
+let tutorBusy = false;
 
 function renderRoadmap() {
   const units = new Map();
@@ -78,6 +93,34 @@ function renderRoadmap() {
 
 function showIntro() {
   if (!elements.intro.open) elements.intro.showModal();
+}
+
+function updateTutorConnection(message = "") {
+  const connected = Boolean(tutorEndpoint);
+  elements.tutorEndpoint.value = tutorEndpoint;
+  elements.tutorEndpointStatus.textContent = message || (connected
+    ? "URL configurada. El proxy se verifica al enviar la primera pregunta."
+    : "Sin conectar. Despliega tu Worker y pega aquí su URL.");
+  elements.askTutorButton.disabled = !connected || tutorBusy;
+}
+
+function appendTutorMessage(role, text) {
+  const message = document.createElement("p");
+  message.className = `tutor-message ${role}`;
+  message.textContent = text;
+  elements.tutorMessages.querySelector(".tutor-placeholder")?.remove();
+  elements.tutorMessages.append(message);
+  elements.tutorMessages.scrollTop = elements.tutorMessages.scrollHeight;
+}
+
+function initializeTutorEndpoint() {
+  try {
+    const storedEndpoint = localStorage.getItem(TUTOR_ENDPOINT_KEY);
+    if (storedEndpoint) tutorEndpoint = normalizeTutorEndpoint(storedEndpoint);
+  } catch {
+    tutorEndpoint = "";
+  }
+  updateTutorConnection();
 }
 
 function appendFormatted(parent, text) {
@@ -460,6 +503,47 @@ elements.reset.addEventListener("click", () => {
 
 elements.introButton.addEventListener("click", showIntro);
 elements.tutorButton.addEventListener("click", () => elements.tutor.showModal());
+elements.tutorEndpointForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  try {
+    const endpoint = normalizeTutorEndpoint(elements.tutorEndpoint.value);
+    localStorage.setItem(TUTOR_ENDPOINT_KEY, endpoint);
+    tutorEndpoint = endpoint;
+    updateTutorConnection("URL guardada en este navegador. Todavía no se ha enviado ninguna pregunta.");
+  } catch (error) {
+    updateTutorConnection(error.message || "No se pudo guardar la URL del Worker.");
+  }
+});
+elements.disconnectTutor.addEventListener("click", () => {
+  tutorEndpoint = "";
+  try {
+    localStorage.removeItem(TUTOR_ENDPOINT_KEY);
+    updateTutorConnection("Worker desconectado; URL eliminada de este navegador.");
+  } catch {
+    updateTutorConnection("Worker desconectado. El almacenamiento local no está disponible.");
+  }
+});
+elements.tutorQuestionForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const question = elements.tutorQuestion.value.trim();
+  if (!tutorEndpoint || !question || tutorBusy) return;
+
+  tutorBusy = true;
+  updateTutorConnection("Enviando solo la pregunta y el contexto del reto actual…");
+  appendTutorMessage("student", `Tú: ${question}`);
+  elements.tutorQuestion.value = "";
+  try {
+    const answer = await askTutor(tutorEndpoint, activeId, question);
+    appendTutorMessage("assistant", `Tutor: ${answer}`);
+    updateTutorConnection("El tutor respondió. La pregunta y el contexto del reto se enviaron a NVIDIA.");
+  } catch (error) {
+    appendTutorMessage("error", `No se pudo obtener una respuesta: ${error.message}`);
+    updateTutorConnection(error.message);
+  } finally {
+    tutorBusy = false;
+    elements.askTutorButton.disabled = !tutorEndpoint;
+  }
+});
 document.addEventListener("click", (event) => {
   const button = event.target.closest("[data-close-dialog]");
   if (!button) return;
@@ -469,6 +553,7 @@ document.addEventListener("click", (event) => {
 renderRoadmap();
 renderProgress();
 renderLesson();
+initializeTutorEndpoint();
 
 try {
   if (localStorage.getItem("calcbolge-intro-seen-v1") !== "yes") {
