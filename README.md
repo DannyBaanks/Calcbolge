@@ -175,6 +175,11 @@ challenge verifies Matthias Lutter's quine by source/output fingerprints and
 execution. Student programs and progress stay in the browser; the course
 does not send them to a server.
 
+**Public course:** <https://dannybaanks.github.io/Calcbolge/>
+
+GitHub Pages deploys the `curso/` directory on pushes that change the course.
+The deployment workflow is in `.github/workflows/pages.yml`.
+
 Serve the static course from this directory:
 
 ```bash

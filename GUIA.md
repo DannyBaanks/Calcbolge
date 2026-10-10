@@ -32,6 +32,10 @@ niveles, editor local, pruebas oficiales y una VM Classic ejecutada en Web
 Worker. El reto 100 verifica la quine de Matthias Lutter por huella del fuente,
 estado final y huella de salida.
 
+Sitio publico: <https://dannybaanks.github.io/Calcbolge/>. GitHub Pages
+publica `curso/` automaticamente cuando hay cambios en el curso; el workflow
+esta en `.github/workflows/pages.yml`.
+
 Desde la raiz de Calcbolge, inicia un servidor local:
 
 ```bash
