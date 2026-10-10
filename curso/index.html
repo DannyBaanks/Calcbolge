@@ -81,11 +81,11 @@
         <form id="tutor-endpoint-form" class="tutor-form">
           <label class="field-label" for="tutor-endpoint">URL pública del Worker · no es un secreto</label>
           <input id="tutor-endpoint" type="url" autocomplete="url"
-            placeholder="https://calcbolge-nvidia-tutor.tu-subdominio.workers.dev/api/tutor"
+            value="https://calcbolge-nvidia-tutor.danielbaanksyy.workers.dev/api/tutor"
             aria-describedby="tutor-endpoint-status">
           <button type="submit">Guardar URL</button>
           <button id="disconnect-tutor" type="button">Desconectar</button>
-          <span id="tutor-endpoint-status" class="tutor-status" aria-live="polite">Sin conectar. Despliega tu Worker y pega aquí su URL.</span>
+          <span id="tutor-endpoint-status" class="tutor-status" aria-live="polite">Worker desplegado preconfigurado. Guarda la URL para activar el chat.</span>
         </form>
         <div id="tutor-chat" class="tutor-chat">
           <div id="tutor-messages" class="tutor-messages" role="log" aria-live="polite">

@@ -97,10 +97,12 @@ function showIntro() {
 
 function updateTutorConnection(message = "") {
   const connected = Boolean(tutorEndpoint);
-  elements.tutorEndpoint.value = tutorEndpoint;
+  if (connected) elements.tutorEndpoint.value = tutorEndpoint;
   elements.tutorEndpointStatus.textContent = message || (connected
     ? "URL configurada. El proxy se verifica al enviar la primera pregunta."
-    : "Sin conectar. Despliega tu Worker y pega aquí su URL.");
+    : elements.tutorEndpoint.value
+      ? "Worker desplegado preconfigurado. Guarda la URL para activar el chat."
+      : "Sin conectar. Despliega tu Worker y pega aquí su URL.");
   elements.askTutorButton.disabled = !connected || tutorBusy;
 }
 
