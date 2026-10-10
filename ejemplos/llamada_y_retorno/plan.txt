@@ -1,0 +1,16 @@
+# Llamada y retorno - plan en ops, una linea por tramo.
+# Formato: celda_inicial  op[*repeticiones]  comentario
+# Se ensambla con Calcbolge: cada op se convierte en el unico caracter valido en su celda.
+0   in          lee el primer caracter en A
+1   out         lo imprime
+2   nop*38      rampa del principal
+40  jmp         LLAMADA: salta a su propio caracter (58), sigue en 59
+41  nop*2       hueco
+43  jmp         DATO: nunca se ejecuta; su caracter (55) es la direccion de retorno
+44  nop*12      hueco (55 = aterrizaje del retorno)
+56  out         tras volver: imprime lo que dejo la subrutina
+57  end         fin del principal
+58  nop         aterrizaje de la llamada
+59  in          SUBRUTINA: lee el segundo caracter
+60  out         lo imprime
+61  jmp         RETORNO: lee mem[43] = 55, vuelve a 56
