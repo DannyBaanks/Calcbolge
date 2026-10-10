@@ -22,6 +22,34 @@ position 17  opcode 68 (nop)  ->  '3'   ascii 51
 Calcbolge escribe y lee la capa posicional Classic; no ejecuta el programa.
 Usa posiciones de celda `0..59048`. La coordenada `v` que muestra `coords` es
 solo el cociente de dividir la posicion entre 94; no forma parte del decoder.
+El curso web que acompana a la herramienta si incluye un runner Classic
+independiente para sus ejercicios; no cambia el alcance del CLI.
+
+## Curso web: Malbolge desde cero
+
+La carpeta `curso/` contiene una web estatica en espanol con 100 retos en diez
+niveles, editor local, pruebas oficiales y una VM Classic ejecutada en Web
+Worker. El reto 100 verifica la quine de Matthias Lutter por huella del fuente,
+estado final y huella de salida.
+
+Desde la raiz de Calcbolge, inicia un servidor local:
+
+```bash
+python3 -m http.server 8000 --directory curso
+```
+
+Abre <http://localhost:8000/>. Los programas y el progreso no se envian a
+ningun servidor. Para los retos de `cat`, raiz digital y adder, descarga los
+artefactos desde malbolge.org y cargalos en la mesa de trabajo; no estan
+copiados dentro del curso. El archivo descargable `cat.mal` termina al llegar
+a EOF; el fragmento corto incluido en la pagina del cat es distinto y no
+termina, por lo que su reto compara una salida acotada.
+
+Las pruebas del curso corren con:
+
+```bash
+node --test tests/test_curso.mjs
+```
 
 ## La formula
 

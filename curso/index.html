@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a246a">
+  <title>Calcbolge Academy — aprende Malbolge</title>
+  <link rel="stylesheet" href="./estilo.css">
+</head>
+<body>
+  <header class="titlebar">
+    <span>Calcbolge Academy — [Laboratorio de Malbolge Classic]</span>
+    <span class="window-controls" aria-hidden="true"><b>_</b><b>□</b><b>×</b></span>
+  </header>
+
+  <div class="page">
+    <header class="masthead">
+      <div>
+        <h1>calcbolge<span>·</span>academy <small>edición 2003</small></h1>
+        <p>100 retos para pasar de “¿qué carácter va aquí?” a escribir una quine.</p>
+      </div>
+      <div class="course-progress" aria-live="polite">
+        <strong id="progress-label">0 / 100 retos</strong>
+        <div class="progress-track" role="progressbar" aria-label="Progreso del curso"
+             aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress-bar">
+          <div id="progress-fill"></div>
+        </div>
+      </div>
+    </header>
+
+    <div class="toolbar">
+      <span class="lamp" aria-hidden="true"></span>
+      <span id="save-status">El progreso se guarda solo en este navegador.</span>
+      <button id="reset-progress" type="button" class="small-button">Reiniciar progreso</button>
+    </div>
+
+    <main class="layout">
+      <nav class="panel lesson-nav" aria-label="Lecciones">
+        <div class="panel-title">CURSO · 10 NIVELES</div>
+        <div id="lesson-list"></div>
+      </nav>
+
+      <section class="panel lesson-panel" aria-live="polite">
+        <div class="panel-title" id="lesson-kicker">NIVEL 1 · RETO 1 DE 100</div>
+        <div class="lesson-content">
+          <div class="lesson-heading">
+            <h2 id="lesson-title"></h2>
+            <span id="difficulty" class="difficulty"></span>
+          </div>
+          <p id="lesson-concept" class="concept"></p>
+          <div id="lesson-body" class="lesson-body"></div>
+          <div id="lesson-feedback" class="feedback" aria-live="assertive"></div>
+          <div class="lesson-actions">
+            <button id="check-answer" type="button" class="primary-button">Comprobar respuesta</button>
+            <button id="previous-lesson" type="button">← Anterior</button>
+            <button id="next-lesson" type="button" disabled>Siguiente reto →</button>
+          </div>
+        </div>
+      </section>
+
+      <aside class="panel lab-panel">
+        <div class="panel-title">MESA DE TRABAJO · CLASSIC 3¹⁰</div>
+        <div class="lab-content">
+          <p class="lab-note">Los retos de programas aceptan archivos propios. El fuente queda en esta pestaña; nunca se sube a un servidor.</p>
+          <div class="file-row">
+            <label class="file-button" for="program-file">Abrir .mal…</label>
+            <input id="program-file" type="file" accept=".mal,.malb,.malbolge,.txt,.hell">
+            <span id="file-name">sin archivo</span>
+          </div>
+          <label for="program-source" class="field-label">FUENTE MALBOLGE</label>
+          <textarea id="program-source" class="source-editor" spellcheck="false"
+            aria-label="Fuente Malbolge para el reto"
+            placeholder="Carga un .mal o escribe aquí. El reto final requiere la quine completa."></textarea>
+          <div class="field-label input-heading">
+            <label for="program-input">ENTRADA DEL PROGRAMA</label>
+            <span>bytes Latin-1</span>
+          </div>
+          <textarea id="program-input" class="stdin-editor" spellcheck="false"
+            aria-label="Entrada para el programa" placeholder="p. ej. MEOW"></textarea>
+          <div class="run-row">
+            <button id="run-program" type="button">▶ Ejecutar en sandbox</button>
+            <span id="run-badge" class="badge">sin ejecutar</span>
+          </div>
+          <label for="program-output" class="field-label">SALIDA</label>
+          <textarea id="program-output" class="output-editor" readonly aria-label="Salida del programa"></textarea>
+          <details class="trace-details">
+            <summary>Traza del primer tramo</summary>
+            <pre id="program-trace">Cargando el laboratorio…</pre>
+          </details>
+          <p class="sandbox-warning">Límite: 2 000 000 pasos y 4 096 bytes por ejecución libre. No es una máquina virtual para código sin límites.</p>
+        </div>
+      </aside>
+    </main>
+
+    <footer class="references">
+      <strong>Pruebas de referencia:</strong>
+      <a href="https://malbolge.org/cat.html" target="_blank" rel="noopener">cat</a> ·
+      <a href="https://malbolge.org/digital_root.html" target="_blank" rel="noopener">raíz digital</a> ·
+      <a href="https://malbolge.org/adder.html" target="_blank" rel="noopener">adder</a> ·
+      <a href="https://malbolge.org/quine.html" target="_blank" rel="noopener">quine de Matthias Lutter</a>.
+      Curso estático, local y sin dependencias.
+    </footer>
+  </div>
+  <script type="module" src="./app.mjs"></script>
+</body>
+</html>

@@ -166,3 +166,28 @@ quotient/remainder view of source positions, not a claim about runtime
 topology. `CLAIM_SCOPE <= EVIDENCE_SCOPE`.
 
 Requires Python ≥ 3.8. No dependencies.
+
+## Curso web de Malbolge
+
+Calcbolge also includes a Spanish, browser-based Classic Malbolge course with
+100 progressive challenges, a local editor and a sandboxed runner. The final
+challenge verifies Matthias Lutter's quine by source/output fingerprints and
+execution. Student programs and progress stay in the browser; the course
+does not send them to a server.
+
+Serve the static course from this directory:
+
+```bash
+python3 -m http.server 8000 --directory curso
+```
+
+Then open <http://localhost:8000/>. The runner executes in a Web Worker, so
+long-running programs do not block the page. Official `cat`, digital-root and
+adder challenges ask the learner to download the published programs; their
+source code is not bundled in this repository.
+
+Run its unit tests with:
+
+```bash
+node --test tests/test_curso.mjs
+```
