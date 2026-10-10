@@ -36,6 +36,16 @@ Sitio publico: <https://dannybaanks.github.io/Calcbolge/>. GitHub Pages
 publica `curso/` automaticamente cuando hay cambios en el curso; el workflow
 esta en `.github/workflows/pages.yml`.
 
+La primera visita abre una ventana de bienvenida/ayuda con el mapa ASCII de los
+diez niveles y la tabla de caracteres graficos tomada de `clasesbolge.md`; no
+es un solucionario. El boton Inicio / Ayuda la vuelve a mostrar.
+
+El tutor NVIDIA aun no esta conectado. Pages no puede guardar una clave API
+secreta: ni un `venv` ni GitHub Actions Secrets sirven como almacen de runtime
+para el navegador. Antes de activarlo hace falta un backend/proxy, por ejemplo
+un Cloudflare Worker con `NVIDIA_API_KEY` configurada como secreto. El rol
+socratico y los requisitos estan en `curso/ROL_TUTOR.md` y `curso/AGENTS.md`.
+
 Desde la raiz de Calcbolge, inicia un servidor local:
 
 ```bash

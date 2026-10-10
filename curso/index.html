@@ -31,8 +31,60 @@
     <div class="toolbar">
       <span class="lamp" aria-hidden="true"></span>
       <span id="save-status">El progreso se guarda solo en este navegador.</span>
+      <button id="open-intro" type="button" class="small-button">Inicio / Ayuda</button>
+      <button id="open-tutor" type="button" class="small-button">Tutor IA · configuración</button>
       <button id="reset-progress" type="button" class="small-button">Reiniciar progreso</button>
     </div>
+
+    <dialog id="intro-dialog" class="help-dialog" aria-labelledby="intro-title">
+      <div class="dialog-titlebar">
+        <span>Calcbolge Academy · Ayuda</span>
+        <button type="button" class="dialog-close" data-close-dialog="intro-dialog" aria-label="Cerrar ayuda">×</button>
+      </div>
+      <div class="dialog-content">
+        <h2 id="intro-title">Bienvenida al laboratorio</h2>
+        <p>Malbolge es un lenguaje esotérico donde cada carácter depende de su posición y el programa se modifica mientras corre. Aquí vas a descubrir cómo leerlo y escribirlo, paso a paso.</p>
+        <p><strong>No hay solucionario en esta ventana.</strong> El curso presenta las ideas y te deja resolver cada reto por tu cuenta.</p>
+        <h3>El camino</h3>
+        <pre id="intro-roadmap" class="ascii-tree" aria-label="Árbol de niveles del curso">Cargando niveles…</pre>
+        <h3>Alfabeto de referencia · ASCII gráfico 33–126</h3>
+        <pre class="ascii-table" aria-label="Tabla ASCII imprimible de referencia"> 33 !    34 &quot;    35 #    36 $    37 %    38 &amp;    39 '    40 (
+ 41 )    42 *    43 +    44 ,    45 -    46 .    47 /
+ 48 0    49 1    50 2    51 3    52 4    53 5    54 6    55 7
+ 56 8    57 9    58 :    59 ;    60 &lt;    61 =    62 &gt;    63 ?
+ 64 @    65 A    66 B    67 C    68 D    69 E    70 F    71 G
+ 72 H    73 I    74 J    75 K    76 L    77 M    78 N    79 O
+ 80 P    81 Q    82 R    83 S    84 T    85 U    86 V    87 W
+ 88 X    89 Y    90 Z    91 [    92 \    93 ]    94 ^    95 _
+ 96 `    97 a    98 b    99 c   100 d   101 e   102 f   103 g
+104 h   105 i   106 j   107 k   108 l   109 m   110 n   111 o
+112 p   113 q   114 r   115 s   116 t   117 u   118 v   119 w
+120 x   121 y   122 z   123 {   124 |   125 }   126 ~</pre>
+        <p class="help-note">La tabla sirve para consultar caracteres, no contiene respuestas ni desbloquea retos. Tu progreso se queda en este navegador.</p>
+        <div class="dialog-actions">
+          <button type="button" class="primary-button" data-close-dialog="intro-dialog">¡Empezar!</button>
+        </div>
+      </div>
+    </dialog>
+
+    <dialog id="tutor-dialog" class="help-dialog tutor-dialog" aria-labelledby="tutor-title">
+      <div class="dialog-titlebar">
+        <span>Calcbolge Academy · Tutor NVIDIA</span>
+        <button type="button" class="dialog-close" data-close-dialog="tutor-dialog" aria-label="Cerrar tutor">×</button>
+      </div>
+      <div class="dialog-content">
+        <h2 id="tutor-title">Tutor socrático (opcional)</h2>
+        <p>Cuando se conecte el proxy, el tutor podrá explicar conceptos y darte pistas graduales sin resolverte los retos.</p>
+        <div class="api-warning">
+          <strong>La web estática no puede esconder una clave.</strong> No pegues tu API key aquí: este sitio aún no tiene un backend seguro. Un `venv` solo aísla paquetes en tu computadora; no protege secretos en GitHub Pages. GitHub Actions Secrets tampoco llegan al navegador y nunca deben incrustarse en los archivos publicados.
+        </div>
+        <p>Para activarlo de forma segura hace falta un pequeño proxy del lado servidor que guarde `NVIDIA_API_KEY` como secreto (por ejemplo, en un Cloudflare Worker). La web enviaría solo tu pregunta y el reto actual a ese proxy, nunca la clave. El rol e instrucciones del tutor ya están documentados para ese backend.</p>
+        <p><a href="https://build.nvidia.com/" target="_blank" rel="noopener">NVIDIA API Catalog</a> · La conexión todavía no está activada.</p>
+        <div class="dialog-actions">
+          <button type="button" class="primary-button" data-close-dialog="tutor-dialog">Entendido</button>
+        </div>
+      </div>
+    </dialog>
 
     <main class="layout">
       <nav class="panel lesson-nav" aria-label="Lecciones">

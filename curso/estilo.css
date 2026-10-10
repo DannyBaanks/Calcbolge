@@ -70,6 +70,7 @@ button:disabled { cursor: not-allowed; opacity: .48; }
 .toolbar {
   min-height: 28px;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 8px;
   padding: 4px 8px;
@@ -80,7 +81,62 @@ button:disabled { cursor: not-allowed; opacity: .48; }
   font-size: 11px;
 }
 .lamp { width: 8px; height: 8px; border-radius: 50%; background: #67a947; box-shadow: 0 0 4px #7bbd55; }
-.small-button { margin-left: auto; padding: 2px 7px; font-size: 11px; }
+.small-button { padding: 2px 7px; font-size: 11px; }
+.toolbar #reset-progress { margin-left: auto; }
+
+.help-dialog {
+  width: min(760px, calc(100vw - 24px));
+  max-width: 760px;
+  max-height: min(92vh, 900px);
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #f8f7f0;
+  background: var(--panel);
+  box-shadow: 4px 5px 18px rgba(13, 29, 47, .55);
+  color: var(--ink);
+}
+.help-dialog::backdrop { background: rgba(7, 21, 39, .62); }
+.dialog-titlebar {
+  min-height: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 7px 5px 11px;
+  color: white;
+  background: linear-gradient(90deg, #08216b 0%, #1766bb 70%, #2d8ad0 100%);
+  font-weight: bold;
+  text-shadow: 1px 1px #10295d;
+}
+.dialog-close {
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 1px solid white;
+  border-radius: 3px;
+  color: white;
+  background: linear-gradient(#e58d78, #bd3927);
+  font: bold 17px/18px Arial, sans-serif;
+}
+.dialog-content { max-height: calc(min(92vh, 900px) - 32px); overflow: auto; padding: 18px clamp(14px, 4vw, 28px) 22px; line-height: 1.55; }
+.dialog-content h2 { margin: 0 0 10px; color: #153963; font-size: 23px; }
+.dialog-content h3 { margin: 18px 0 7px; color: #234a75; font-size: 14px; }
+.dialog-content p { margin: 8px 0; }
+.ascii-tree, .ascii-table {
+  overflow: auto;
+  padding: 12px;
+  border: 1px solid #a5a99f;
+  background: #fafaf6;
+  color: #193d63;
+  font: 12px/1.65 Consolas, "Courier New", monospace;
+}
+.ascii-tree { white-space: pre; }
+.ascii-table { font-size: 11px; }
+.help-note { color: #596675; font-size: 11px; }
+.dialog-actions { display: flex; justify-content: end; gap: 8px; margin-top: 16px; }
+.dialog-actions button { padding: 7px 14px; border: 1px solid #174c83; border-radius: 2px; color: white; background: linear-gradient(#4f8dc9, #2364a2); font-weight: bold; }
+.api-warning { margin: 12px 0; padding: 11px 12px; border: 1px solid #d5ad5e; background: #fff6d9; color: #594616; line-height: 1.5; }
+.tutor-dialog { width: min(600px, calc(100vw - 24px)); }
+.dialog-content a { color: #0755a1; }
 
 .layout { display: grid; grid-template-columns: 220px minmax(360px, 1fr) minmax(305px, 370px); gap: 9px; align-items: stretch; }
 .panel { min-width: 0; background: var(--panel); border: 1px solid #f8f7f0; box-shadow: 1px 1px 0 #7d8c9b, 2px 2px 0 rgba(21, 40, 62, .48); }
@@ -175,6 +231,9 @@ button:disabled { cursor: not-allowed; opacity: .48; }
   .masthead { align-items: start; flex-direction: column; gap: 12px; }
   .course-progress { width: 100%; }
   .course-progress strong { text-align: left; }
+  .toolbar { align-items: start; }
+  .toolbar .small-button { margin-left: 0; }
+  .toolbar #reset-progress { margin-left: 0; }
   .layout { grid-template-columns: minmax(0, 1fr); }
   .lesson-nav { max-height: 245px; grid-row: auto; }
   .lab-panel { grid-column: auto; }

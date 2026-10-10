@@ -31,6 +31,11 @@ const elements = {
   progressFill: $("#progress-fill"),
   saveStatus: $("#save-status"),
   reset: $("#reset-progress"),
+  intro: $("#intro-dialog"),
+  introButton: $("#open-intro"),
+  tutor: $("#tutor-dialog"),
+  tutorButton: $("#open-tutor"),
+  roadmap: $("#intro-roadmap"),
   source: $("#program-source"),
   file: $("#program-file"),
   fileName: $("#file-name"),
@@ -53,6 +58,27 @@ let selectedChoice = null;
 let worker = null;
 let busy = false;
 let runId = 0;
+
+function renderRoadmap() {
+  const units = new Map();
+  for (const lesson of lessons) {
+    if (!units.has(lesson.unit)) units.set(lesson.unit, lesson.unitTitle);
+  }
+  const entries = [...units.entries()];
+  elements.roadmap.textContent = [
+    "Malbolge Classic",
+    ...entries.map(([unit, title]) => {
+      const first = String((unit - 1) * 10 + 1).padStart(3, "0");
+      const last = String(unit * 10).padStart(3, "0");
+      return `|-- ${String(unit).padStart(2, "0")} ${title} [${first}-${last}]`;
+    }),
+    "    `-- Examen final: la quine de Lutter",
+  ].join("\n");
+}
+
+function showIntro() {
+  if (!elements.intro.open) elements.intro.showModal();
+}
 
 function appendFormatted(parent, text) {
   const pattern = /`([^`]+)`|(https?:\/\/[^\s)]+)/g;
@@ -432,5 +458,23 @@ elements.reset.addEventListener("click", () => {
   renderLesson();
 });
 
+elements.introButton.addEventListener("click", showIntro);
+elements.tutorButton.addEventListener("click", () => elements.tutor.showModal());
+document.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-close-dialog]");
+  if (!button) return;
+  document.getElementById(button.dataset.closeDialog)?.close();
+});
+
+renderRoadmap();
 renderProgress();
 renderLesson();
+
+try {
+  if (localStorage.getItem("calcbolge-intro-seen-v1") !== "yes") {
+    showIntro();
+    localStorage.setItem("calcbolge-intro-seen-v1", "yes");
+  }
+} catch {
+  showIntro();
+}

@@ -180,6 +180,12 @@ does not send them to a server.
 GitHub Pages deploys the `curso/` directory on pushes that change the course.
 The deployment workflow is in `.github/workflows/pages.yml`.
 
+On first visit the course opens a welcome/help window with its ASCII roadmap and
+printable-character reference table. The optional NVIDIA tutor is not yet
+connected: GitHub Pages cannot keep an API key private. See `curso/AGENTS.md`
+and `curso/ROL_TUTOR.md` for the security requirements and teaching role before
+adding a server-side proxy.
+
 Serve the static course from this directory:
 
 ```bash
