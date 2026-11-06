@@ -1,10 +1,16 @@
-# Calcbolge
+# Calcbolge v2.0 — Hand-Writing Calculator for Classic Malbolge
 
-> A hand-writing calculator for Classic Malbolge.
+[![Version](https://img.shields.io/badge/version-2.0-blue.svg)](https://github.com/DannyBaanks/Calcbolge)
+[![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://python.org)
+[![Tests](https://img.shields.io/badge/tests-10%2F10%20PASS-brightgreen.svg)]()
+
+> A hand-writing calculator and deterministic positional resolver for Classic Malbolge.
 
 You want opcode `OP` in cell `C`. What character do you type? That is the
 only question Calcbolge answers, and it is the question that stands between
 Malbolge and being writable by a person.
+
+Part of the **v2.0 Malbolge Synthesis and Tooling Suite**.
 
 ```
 opcode = (ASCII + c) mod 94      <- what the VM computes
